@@ -3,7 +3,8 @@ import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Phone, MessageCircle, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { supabase, type Car } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
+import { type Car } from "@/lib/supabase";
 import CarDetailModal from "@/components/inventory/CarDetailModal";
 
 const PHONE_NUMBER = "07593003535";
@@ -89,7 +90,7 @@ const Inventory = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setVehicles(data && data.length > 0 ? data : fallbackVehicles);
+      setVehicles(data && data.length > 0 ? data as Car[] : fallbackVehicles);
     } catch (error) {
       console.error("Error fetching vehicles:", error);
       setVehicles(fallbackVehicles);

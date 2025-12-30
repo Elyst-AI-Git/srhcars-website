@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { supabase, type Car } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
+import { type Car } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -67,7 +68,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setCars(data || []);
+      setCars((data as Car[]) || []);
     } catch (error: any) {
       toast({
         title: "Error",

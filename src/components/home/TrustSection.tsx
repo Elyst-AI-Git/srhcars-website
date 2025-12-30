@@ -1,11 +1,4 @@
-import { 
-  Shield, 
-  Tag, 
-  FileText, 
-  BadgeCheck, 
-  Calculator, 
-  Search 
-} from "lucide-react";
+import { Shield, Tag, Calculator } from "lucide-react";
 
 const features = [
   {
@@ -19,24 +12,9 @@ const features = [
     description: "No hidden fees or surprises. The price you see is the price you pay.",
   },
   {
-    icon: FileText,
-    title: "Full Service History",
-    description: "Complete documentation and service records available for every car.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Warranty Options",
-    description: "Extended warranty packages available for your peace of mind.",
-  },
-  {
     icon: Calculator,
     title: "Finance Available",
     description: "Flexible financing solutions to fit your budget and needs.",
-  },
-  {
-    icon: Search,
-    title: "Free Vehicle Check",
-    description: "Complimentary HPI check and history verification on all vehicles.",
   },
 ];
 

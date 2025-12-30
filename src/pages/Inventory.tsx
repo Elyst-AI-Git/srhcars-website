@@ -1,42 +1,108 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase, type Car } from "@/lib/supabase";
+import CarDetailModal from "@/components/inventory/CarDetailModal";
 
 const PHONE_NUMBER = "07593003535";
 const WHATSAPP_LINK = "https://wa.me/+447593003535";
 
-const vehicles = [
+// Fallback vehicles for when database is empty or connection fails
+const fallbackVehicles: Car[] = [
   {
-    id: 1,
-    name: "2019 BMW 3 Series",
-    price: "£12,995",
-    image: "/placeholder.svg",
-    mileage: "45,000 miles",
-    fuel: "Diesel",
-    transmission: "Automatic",
+    id: "1",
+    model_name: "BMW 3 Series",
+    price: 12995,
+    year: 2019,
+    body_type: "Saloon",
+    doors: 4,
+    seats: 5,
+    colour: "Black",
+    registration_date: "2019-03-15",
+    mileage: 45000,
+    fuel_type: "Diesel",
+    gearbox: "Automatic",
+    drive_type: "RWD",
+    key_features: ["Leather Seats", "Navigation", "Parking Sensors", "Cruise Control"],
+    image_urls: ["/placeholder.svg"],
+    status: "available",
+    created_at: new Date().toISOString(),
   },
   {
-    id: 2,
-    name: "2020 Ford Focus",
-    price: "£8,500",
-    image: "/placeholder.svg",
-    mileage: "32,000 miles",
-    fuel: "Petrol",
-    transmission: "Manual",
+    id: "2",
+    model_name: "Ford Focus",
+    price: 8500,
+    year: 2020,
+    body_type: "Hatchback",
+    doors: 5,
+    seats: 5,
+    colour: "Blue",
+    registration_date: "2020-06-20",
+    mileage: 32000,
+    fuel_type: "Petrol",
+    gearbox: "Manual",
+    drive_type: "FWD",
+    key_features: ["Bluetooth", "Air Conditioning", "Alloy Wheels"],
+    image_urls: ["/placeholder.svg"],
+    status: "available",
+    created_at: new Date().toISOString(),
   },
   {
-    id: 3,
-    name: "2021 Audi A4",
-    price: "£15,750",
-    image: "/placeholder.svg",
-    mileage: "28,000 miles",
-    fuel: "Diesel",
-    transmission: "Automatic",
+    id: "3",
+    model_name: "Audi A4",
+    price: 15750,
+    year: 2021,
+    body_type: "Saloon",
+    doors: 4,
+    seats: 5,
+    colour: "Silver",
+    registration_date: "2021-01-10",
+    mileage: 28000,
+    fuel_type: "Diesel",
+    gearbox: "Automatic",
+    drive_type: "AWD",
+    key_features: ["Virtual Cockpit", "LED Headlights", "Heated Seats", "Premium Sound"],
+    image_urls: ["/placeholder.svg"],
+    status: "available",
+    created_at: new Date().toISOString(),
   },
 ];
 
 const Inventory = () => {
+  const [vehicles, setVehicles] = useState<Car[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
+  const fetchVehicles = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("cars")
+        .select("*")
+        .eq("status", "available")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setVehicles(data && data.length > 0 ? data : fallbackVehicles);
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+      setVehicles(fallbackVehicles);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCardClick = (car: Car) => {
+    setSelectedCar(car);
+    setModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />
@@ -57,62 +123,69 @@ const Inventory = () => {
         {/* Vehicles Grid */}
         <section className="py-12 bg-primary">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {vehicles.map((vehicle) => (
-                <div
-                  key={vehicle.id}
-                  className="bg-card/5 border border-border/20 rounded-lg overflow-hidden hover:border-accent/50 transition-all group"
-                >
-                  {/* Image */}
-                  <div className="aspect-video bg-muted/20 overflow-hidden">
-                    <img
-                      src={vehicle.image}
-                      alt={vehicle.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+            {loading ? (
+              <div className="flex justify-center items-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-accent" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {vehicles.map((vehicle) => (
+                  <div
+                    key={vehicle.id}
+                    onClick={() => handleCardClick(vehicle)}
+                    className="bg-card/5 border border-border/20 rounded-lg overflow-hidden hover:border-accent/50 transition-all group cursor-pointer"
+                  >
+                    {/* Image */}
+                    <div className="aspect-video bg-muted/20 overflow-hidden">
+                      <img
+                        src={vehicle.image_urls?.[0] || "/placeholder.svg"}
+                        alt={vehicle.model_name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-primary-foreground mb-2">
+                        {vehicle.year} {vehicle.model_name}
+                      </h3>
+                      <div className="text-2xl font-bold text-accent mb-4">
+                        £{vehicle.price?.toLocaleString()}
+                      </div>
+
+                      {/* Specs */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
+                          {vehicle.mileage?.toLocaleString()} miles
+                        </span>
+                        <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
+                          {vehicle.fuel_type}
+                        </span>
+                        <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
+                          {vehicle.gearbox}
+                        </span>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
+                        <a href={`tel:${PHONE_NUMBER}`} className="flex-1">
+                          <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+                            <Phone className="w-4 h-4 mr-2" />
+                            Call
+                          </Button>
+                        </a>
+                        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
+                          <Button variant="outline" className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground">
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            WhatsApp
+                          </Button>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-primary-foreground mb-2">
-                      {vehicle.name}
-                    </h3>
-                    <div className="text-2xl font-bold text-accent mb-4">
-                      {vehicle.price}
-                    </div>
-
-                    {/* Specs */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
-                        {vehicle.mileage}
-                      </span>
-                      <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
-                        {vehicle.fuel}
-                      </span>
-                      <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">
-                        {vehicle.transmission}
-                      </span>
-                    </div>
-
-                    {/* CTA */}
-                    <div className="flex gap-3">
-                      <a href={`tel:${PHONE_NUMBER}`} className="flex-1">
-                        <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Call
-                        </Button>
-                      </a>
-                      <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
-                        <Button variant="outline" className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-                          <MessageCircle className="w-4 h-4 mr-2" />
-                          WhatsApp
-                        </Button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
             {/* Contact CTA */}
             <div className="text-center mt-12">
@@ -130,6 +203,12 @@ const Inventory = () => {
         </section>
       </main>
       <Footer />
+
+      <CarDetailModal 
+        car={selectedCar} 
+        open={modalOpen} 
+        onOpenChange={setModalOpen} 
+      />
     </div>
   );
 };

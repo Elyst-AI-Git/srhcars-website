@@ -246,7 +246,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
           <Button
             onClick={onLogout}
             variant="outline"
-            className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+            className="border-destructive/50 bg-destructive/10 text-destructive hover:bg-destructive hover:text-destructive-foreground"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
@@ -478,7 +478,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                       setEditingId(null);
                       setForm(emptyCarForm);
                     }}
-                    className="border-border/30 text-primary-foreground"
+                    className="border-border/30 bg-muted text-foreground hover:bg-muted/80"
                   >
                     Cancel
                   </Button>
@@ -532,31 +532,26 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     </div>
                     <div className="flex gap-2">
                       <Button
-                        size="icon"
-                        variant="outline"
+                        size="sm"
                         onClick={() => toggleStatus(car)}
-                        className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+                        className={car.status === "available" 
+                          ? "bg-accent hover:bg-accent/90 text-primary" 
+                          : "bg-green-600 hover:bg-green-600/90 text-primary"}
                         title={car.status === "available" ? "Mark as Sold" : "Mark as Available"}
                       >
-                        {car.status === "available" ? (
-                          <X className="w-4 h-4" />
-                        ) : (
-                          <Check className="w-4 h-4" />
-                        )}
+                        {car.status === "available" ? "Mark Sold" : "Mark Available"}
                       </Button>
                       <Button
                         size="icon"
-                        variant="outline"
                         onClick={() => handleEdit(car)}
-                        className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+                        className="bg-accent/20 border border-accent/50 text-accent hover:bg-accent hover:text-primary"
                       >
                         <Pencil className="w-4 h-4" />
                       </Button>
                       <Button
                         size="icon"
-                        variant="outline"
                         onClick={() => setDeleteId(car.id)}
-                        className="border-destructive/30 text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                        className="bg-destructive/20 border border-destructive/50 text-destructive hover:bg-destructive hover:text-destructive-foreground"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -581,7 +576,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="border-border/30 text-primary-foreground">
+            <AlertDialogCancel className="bg-muted border-border/30 text-foreground hover:bg-muted/80">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction

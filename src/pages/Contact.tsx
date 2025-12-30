@@ -9,7 +9,9 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const PHONE_NUMBER = "07593003535";
-const WHATSAPP_LINK = `https://wa.me/447593003535?text=Hi%2C%20I'm%20interested%20in%20your%20cars`;
+const WHATSAPP_LINK = "https://wa.me/+447593003535";
+const EMAIL = "srhcarsltd@gmail.com";
+const ADDRESS = "UNIT 37 Trent Ln, Nottingham NG2 4EQ, United Kingdom";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -22,7 +24,6 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, show a success message
     toast({
       title: "Message Sent!",
       description: "We'll get back to you as soon as possible.",
@@ -35,11 +36,11 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-primary">
       <Navbar />
       <main className="pt-20">
         {/* Hero */}
-        <section className="py-20 bg-primary">
+        <section className="py-16 bg-primary">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
               Get In <span className="text-accent">Touch</span>
@@ -52,12 +53,12 @@ const Contact = () => {
         </section>
 
         {/* Contact Content */}
-        <section className="py-16 bg-secondary">
+        <section className="py-12 bg-primary">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
               {/* Contact Info */}
               <div>
-                <h2 className="text-2xl font-bold text-secondary-foreground mb-6">
+                <h2 className="text-2xl font-bold text-primary-foreground mb-6">
                   Contact Information
                 </h2>
                 
@@ -67,10 +68,10 @@ const Contact = () => {
                       <Phone className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary-foreground">Phone</h3>
+                      <h3 className="font-semibold text-primary-foreground">Phone</h3>
                       <a 
                         href={`tel:${PHONE_NUMBER}`} 
-                        className="text-muted-foreground hover:text-accent transition-colors"
+                        className="text-primary-foreground/70 hover:text-accent transition-colors"
                       >
                         {PHONE_NUMBER}
                       </a>
@@ -82,12 +83,12 @@ const Contact = () => {
                       <MessageCircle className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary-foreground">WhatsApp</h3>
+                      <h3 className="font-semibold text-primary-foreground">WhatsApp</h3>
                       <a 
                         href={WHATSAPP_LINK}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-accent transition-colors"
+                        className="text-primary-foreground/70 hover:text-accent transition-colors"
                       >
                         Message us on WhatsApp
                       </a>
@@ -99,8 +100,13 @@ const Contact = () => {
                       <Mail className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary-foreground">Email</h3>
-                      <span className="text-muted-foreground">info@srhcars.co.uk</span>
+                      <h3 className="font-semibold text-primary-foreground">Email</h3>
+                      <a 
+                        href={`mailto:${EMAIL}`}
+                        className="text-primary-foreground/70 hover:text-accent transition-colors"
+                      >
+                        {EMAIL}
+                      </a>
                     </div>
                   </div>
 
@@ -109,8 +115,8 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary-foreground">Location</h3>
-                      <span className="text-muted-foreground">United Kingdom</span>
+                      <h3 className="font-semibold text-primary-foreground">Location</h3>
+                      <span className="text-primary-foreground/70">{ADDRESS}</span>
                     </div>
                   </div>
 
@@ -119,9 +125,9 @@ const Contact = () => {
                       <Clock className="w-6 h-6 text-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-secondary-foreground">Opening Hours</h3>
-                      <p className="text-muted-foreground">Mon - Sat: 9:00 AM - 6:00 PM</p>
-                      <p className="text-muted-foreground">Sunday: By Appointment</p>
+                      <h3 className="font-semibold text-primary-foreground">Opening Hours</h3>
+                      <p className="text-primary-foreground/70">Mon - Sat: 9 AM - 6 PM</p>
+                      <p className="text-primary-foreground/70">Sunday: Closed</p>
                     </div>
                   </div>
                 </div>
@@ -132,8 +138,8 @@ const Contact = () => {
               </div>
 
               {/* Contact Form */}
-              <div className="bg-card p-8 rounded-lg border border-border">
-                <h2 className="text-2xl font-bold text-card-foreground mb-6">
+              <div className="bg-card/5 p-8 rounded-lg border border-border/20">
+                <h2 className="text-2xl font-bold text-primary-foreground mb-6">
                   Send Us a Message
                 </h2>
                 
@@ -145,7 +151,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="bg-background"
+                      className="bg-primary border-border/20 text-primary-foreground placeholder:text-primary-foreground/50"
                     />
                   </div>
                   <div>
@@ -156,7 +162,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="bg-background"
+                      className="bg-primary border-border/20 text-primary-foreground placeholder:text-primary-foreground/50"
                     />
                   </div>
                   <div>
@@ -166,7 +172,7 @@ const Contact = () => {
                       placeholder="Your Phone Number"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="bg-background"
+                      className="bg-primary border-border/20 text-primary-foreground placeholder:text-primary-foreground/50"
                     />
                   </div>
                   <div>
@@ -177,7 +183,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="bg-background"
+                      className="bg-primary border-border/20 text-primary-foreground placeholder:text-primary-foreground/50"
                     />
                   </div>
                   <Button 

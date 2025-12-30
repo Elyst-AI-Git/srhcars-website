@@ -28,7 +28,7 @@ const values = [
 
 const About = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-primary">
       <Navbar />
       <main className="pt-20">
         {/* Hero */}
@@ -45,23 +45,23 @@ const About = () => {
         </section>
 
         {/* Our Story */}
-        <section className="py-16 bg-secondary">
+        <section className="py-16 bg-primary border-t border-border/10">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-secondary-foreground mb-6">
+              <h2 className="text-3xl font-bold text-primary-foreground mb-6">
                 Our Story
               </h2>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-primary-foreground/70 mb-4">
                 SRH Cars was founded with a simple mission: to make buying a used car 
                 a pleasant, stress-free experience. We understand that purchasing a vehicle 
                 is a significant decision, and we're here to guide you every step of the way.
               </p>
-              <p className="text-muted-foreground mb-4">
-                Based in the UK, we specialise in sourcing quality pre-owned vehicles that 
+              <p className="text-primary-foreground/70 mb-4">
+                Based in Nottingham, UK, we specialise in sourcing quality pre-owned vehicles that 
                 meet our rigorous standards. Each car in our inventory has been carefully 
                 selected, thoroughly inspected, and prepared to the highest standards.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-primary-foreground/70">
                 Whether you're looking for your first car, a family vehicle, or something 
                 sporty, we're committed to helping you find the perfect match within your budget.
               </p>
@@ -70,21 +70,21 @@ const About = () => {
         </section>
 
         {/* Our Values */}
-        <section className="py-16 bg-card">
+        <section className="py-16 bg-primary border-t border-border/10">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-card-foreground text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary-foreground text-center mb-12">
               Our <span className="text-accent">Values</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {values.map((value, index) => (
-                <div key={index} className="text-center p-6">
+                <div key={index} className="text-center p-6 bg-card/5 rounded-lg border border-border/20">
                   <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <value.icon className="w-8 h-8 text-accent" />
                   </div>
-                  <h3 className="text-lg font-semibold text-card-foreground mb-2">
+                  <h3 className="text-lg font-semibold text-primary-foreground mb-2">
                     {value.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-primary-foreground/60">
                     {value.description}
                   </p>
                 </div>

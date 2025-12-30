@@ -2,7 +2,7 @@ import { Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const PHONE_NUMBER = "07593003535";
-const WHATSAPP_LINK = `https://wa.me/447593003535?text=Hi%2C%20I'm%20interested%20in%20your%20cars`;
+const WHATSAPP_LINK = "https://wa.me/+447593003535";
 
 interface CTAButtonsProps {
   size?: "default" | "lg";

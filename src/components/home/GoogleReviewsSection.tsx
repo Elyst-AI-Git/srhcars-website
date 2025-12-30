@@ -1,40 +1,55 @@
-import { Star, User } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const reviews = [
   {
-    name: "John D.",
+    name: "Mark Smith",
     date: "2 weeks ago",
     rating: 5,
-    text: "Excellent service from start to finish! The team was professional and helped me find the perfect car. Highly recommend SRH Cars to anyone looking for quality used vehicles.",
-    initial: "J",
-  },
-  {
-    name: "Sarah M.",
-    date: "1 month ago",
-    rating: 5,
-    text: "Best car buying experience I've ever had. Transparent pricing, no hidden fees, and the car was exactly as described. Will definitely come back for my next purchase.",
-    initial: "S",
-  },
-  {
-    name: "Michael R.",
-    date: "3 weeks ago",
-    rating: 5,
-    text: "Great selection of quality cars at competitive prices. The staff were friendly and knowledgeable. Made the whole process stress-free!",
+    text: "Excellent service, very professional team. Bought a BMW 3 Series and couldn't be happier. The car was exactly as described and the whole process was smooth.",
     initial: "M",
   },
   {
-    name: "Emma T.",
+    name: "James Wilson",
+    date: "1 month ago",
+    rating: 5,
+    text: "Best car dealership in Nottingham! Great prices and honest service. They helped me find the perfect car within my budget. Highly recommend!",
+    initial: "J",
+  },
+  {
+    name: "Sarah Thompson",
+    date: "3 weeks ago",
+    rating: 5,
+    text: "Fantastic experience from start to finish. The team was friendly and knowledgeable. Got a great deal on my Audi A4. Will definitely return!",
+    initial: "S",
+  },
+  {
+    name: "David Brown",
     date: "1 week ago",
     rating: 5,
-    text: "Found my dream car here! The team went above and beyond to help with finance options. Amazing customer service throughout.",
+    text: "Very trustworthy dealership. All paperwork was handled professionally. The car came with full service history as promised. Thank you SRH Cars!",
+    initial: "D",
+  },
+  {
+    name: "Emma Roberts",
+    date: "2 months ago",
+    rating: 5,
+    text: "Amazing customer service! They went above and beyond to help with finance options. Got my dream car at a fair price. Couldn't ask for more.",
     initial: "E",
   },
   {
-    name: "David L.",
-    date: "2 months ago",
+    name: "Michael Johnson",
+    date: "3 days ago",
     rating: 5,
-    text: "Professional, honest, and reliable. The car passed MOT with flying colours. Couldn't be happier with my purchase from SRH Cars.",
-    initial: "D",
+    text: "Professional, honest, and reliable. The car passed MOT with flying colours. Very happy with my purchase from SRH Cars. Top quality vehicles!",
+    initial: "M",
   },
 ];
 
@@ -66,65 +81,48 @@ const GoogleReviewsSection = () => {
           <p className="text-primary-foreground/60">Based on 17 reviews</p>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {reviews.slice(0, 3).map((review, index) => (
-            <div
-              key={index}
-              className="bg-card/5 border border-border/20 p-6 rounded-lg hover:border-accent/30 transition-colors"
-            >
-              {/* Header */}
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-accent font-semibold">{review.initial}</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-primary-foreground">{review.name}</div>
-                  <div className="text-sm text-primary-foreground/50">{review.date}</div>
-                </div>
-              </div>
+        {/* Carousel */}
+        <div className="max-w-6xl mx-auto px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {reviews.map((review, index) => (
+                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-card/5 border border-border/20 p-6 rounded-lg hover:border-accent/30 transition-colors h-full">
+                    {/* Header */}
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-accent font-semibold">{review.initial}</span>
+                      </div>
+                      <div>
+                        <div className="font-semibold text-primary-foreground">{review.name}</div>
+                        <div className="text-sm text-primary-foreground/50">{review.date}</div>
+                      </div>
+                    </div>
 
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-3">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
-              </div>
+                    {/* Stars */}
+                    <div className="flex gap-0.5 mb-3">
+                      {[...Array(review.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                      ))}
+                    </div>
 
-              {/* Review Text */}
-              <p className="text-sm text-primary-foreground/70 leading-relaxed">
-                {review.text}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Additional Reviews Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-6">
-          {reviews.slice(3, 5).map((review, index) => (
-            <div
-              key={index}
-              className="bg-card/5 border border-border/20 p-6 rounded-lg hover:border-accent/30 transition-colors"
-            >
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-accent font-semibold">{review.initial}</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-primary-foreground">{review.name}</div>
-                  <div className="text-sm text-primary-foreground/50">{review.date}</div>
-                </div>
-              </div>
-              <div className="flex gap-0.5 mb-3">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
-              </div>
-              <p className="text-sm text-primary-foreground/70 leading-relaxed">
-                {review.text}
-              </p>
-            </div>
-          ))}
+                    {/* Review Text */}
+                    <p className="text-sm text-primary-foreground/70 leading-relaxed">
+                      {review.text}
+                    </p>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="bg-accent/10 border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground -left-6" />
+            <CarouselNext className="bg-accent/10 border-accent/30 text-accent hover:bg-accent hover:text-accent-foreground -right-6" />
+          </Carousel>
         </div>
       </div>
     </section>

@@ -5,7 +5,7 @@ const steps = [
     icon: Search,
     step: "01",
     title: "Browse",
-    description: "Explore our quality selection of pre-owned vehicles online or visit us in person.",
+    description: "Explore our quality selection of vehicles online or visit us in person.",
   },
   {
     icon: Car,
@@ -41,21 +41,15 @@ const HowItWorksSection = () => {
               {index < steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-accent/20" />
               )}
-              
+
               {/* Step Circle */}
               <div className="relative z-10 mx-auto w-24 h-24 bg-accent/10 rounded-full flex items-center justify-center mb-6 border-2 border-accent">
                 <item.icon className="w-10 h-10 text-accent" />
               </div>
-              
-              <span className="text-accent font-bold text-sm mb-2 block">
-                Step {item.step}
-              </span>
-              <h3 className="text-xl font-semibold text-primary-foreground mb-3">
-                {item.title}
-              </h3>
-              <p className="text-primary-foreground/60 text-sm">
-                {item.description}
-              </p>
+
+              <span className="text-accent font-bold text-sm mb-2 block">Step {item.step}</span>
+              <h3 className="text-xl font-semibold text-primary-foreground mb-3">{item.title}</h3>
+              <p className="text-primary-foreground/60 text-sm">{item.description}</p>
             </div>
           ))}
         </div>

@@ -1,23 +1,17 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import srhLogo from "@/assets/srh-cars-logo.png";
-
 const PHONE_NUMBER = "07593003535";
 const EMAIL = "srhcarsltd@gmail.com";
 const ADDRESS = "UNIT 37 Trent Ln, Nottingham NG2 4EQ, United Kingdom";
-
 const Footer = () => {
-  return (
-    <footer className="bg-primary text-primary-foreground border-t border-border/10">
+  return <footer className="bg-primary text-primary-foreground border-t border-border/10">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="md:col-span-2">
             <img src={srhLogo} alt="SRH Cars" className="h-12 w-auto mb-4" />
-            <p className="text-primary-foreground/70 text-sm max-w-md">
-              Your trusted partner for quality used cars in Nottingham, UK. We pride ourselves on offering 
-              thoroughly inspected vehicles with transparent pricing and excellent customer service.
-            </p>
+            <p className="text-primary-foreground/70 text-sm max-w-md">Your trusted partner for quality used cars in Nottingham, UK.</p>
           </div>
 
           {/* Quick Links */}
@@ -86,8 +80,6 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;

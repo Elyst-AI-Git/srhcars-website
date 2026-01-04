@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
@@ -15,6 +15,11 @@ const ADDRESS = "UNIT 37 Trent Ln, Nottingham NG2 4EQ, United Kingdom";
 
 const Contact = () => {
   const { toast } = useToast();
+
+  useEffect(() => {
+    document.title = "Contact Us - SRH Cars LTD | Quality Used Cars Nottingham";
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",

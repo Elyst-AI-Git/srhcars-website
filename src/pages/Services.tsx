@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
-import { 
+import {
   Droplets, 
   Disc, 
   Gauge, 
@@ -98,6 +99,10 @@ const services = [
 ];
 
 const Services = () => {
+  useEffect(() => {
+    document.title = "Services - SRH Cars LTD | MOT, Servicing & Repairs Nottingham";
+  }, []);
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />

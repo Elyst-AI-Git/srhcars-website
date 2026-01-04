@@ -17,6 +17,7 @@ const Admin = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    document.title = "Admin - SRH Cars LTD";
     checkAuth();
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {

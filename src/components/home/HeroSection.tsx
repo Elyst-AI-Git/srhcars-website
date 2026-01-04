@@ -12,17 +12,19 @@ const HeroSection = () => {
       {/* Content */}
       <div className="container mx-auto px-4 text-center relative z-10 pt-20">
         <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-6">
-          Quality Used Cars
+          Quality Used Cars in Nottingham
         </span>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-          Your Trusted Partner for{" "}
-          <span className="text-accent">Quality</span> Pre-Owned Vehicles
+          Premium Quality <span className="text-accent">Used Cars</span> in Nottingham
         </h1>
         
-        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-2xl mx-auto mb-10">
-          Discover our handpicked selection of thoroughly inspected used cars. 
-          Transparent pricing, full service history, and exceptional customer service guaranteed.
+        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-3xl mx-auto mb-10">
+          Find your perfect pre-owned vehicle at SRH Cars Ltd, Nottingham's trusted used car dealer. 
+          Every car is fully inspected, competitively priced, and comes with transparent service history. 
+          Located in Trent South Industrial Park, we offer exceptional customer service, flexible finance options, 
+          and 12-month MOT on selected vehicles. Browse our handpicked collection of reliable, affordable cars 
+          from top manufacturers. Visit us today for a test drive.
         </p>
         
         <CTAButtons size="lg" className="justify-center" />

@@ -58,7 +58,7 @@ const Showroom = () => {
 
   // Combine cars for pagination
   const allCars = [...availableCars, ...soldCars];
-  const totalPages = Math.ceil(allCars.length / CARS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(allCars.length / CARS_PER_PAGE));
   
   // Get paginated cars
   const startIndex = (currentPage - 1) * CARS_PER_PAGE;
@@ -246,57 +246,62 @@ const Showroom = () => {
                   </div>
                 )}
 
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <div className="max-w-6xl mx-auto mt-12">
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <p className="text-sm text-primary-foreground/60">
-                        Showing {startIndex + 1}-{Math.min(endIndex, allCars.length)} of {allCars.length} vehicles
-                      </p>
+                {/* Pagination - Always shown */}
+                <div className="max-w-6xl mx-auto mt-12">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <p className="text-sm text-primary-foreground/60">
+                      {allCars.length > 0 
+                        ? `Showing ${startIndex + 1}-${Math.min(endIndex, allCars.length)} of ${allCars.length} vehicles`
+                        : "No vehicles to display"
+                      }
+                    </p>
+                    
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent disabled:opacity-50"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </Button>
                       
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => goToPage(currentPage - 1)}
-                          disabled={currentPage === 1}
-                          className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent disabled:opacity-50"
-                        >
-                          <ChevronLeft className="w-4 h-4" />
-                        </Button>
-                        
-                        {getPageNumbers().map((page, index) => (
-                          page === "..." ? (
-                            <span key={`ellipsis-${index}`} className="px-2 text-primary-foreground/50">...</span>
-                          ) : (
-                            <Button
-                              key={page}
-                              variant={currentPage === page ? "default" : "outline"}
-                              size="sm"
-                              onClick={() => goToPage(page as number)}
-                              className={currentPage === page 
-                                ? "bg-accent text-accent-foreground hover:bg-accent/90" 
-                                : "border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                              }
-                            >
-                              {page}
-                            </Button>
-                          )
-                        ))}
-                        
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => goToPage(currentPage + 1)}
-                          disabled={currentPage === totalPages}
-                          className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent disabled:opacity-50"
-                        >
-                          <ChevronRight className="w-4 h-4" />
-                        </Button>
-                      </div>
+                      {getPageNumbers().map((page, index) => (
+                        page === "..." ? (
+                          <span key={`ellipsis-${index}`} className="px-2 text-primary-foreground/50">...</span>
+                        ) : (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => goToPage(page as number)}
+                            className={currentPage === page 
+                              ? "bg-accent text-accent-foreground hover:bg-accent/90" 
+                              : "border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                            }
+                          >
+                            {page}
+                          </Button>
+                        )
+                      ))}
+                      
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="border-border/30 text-primary-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent disabled:opacity-50"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </Button>
                     </div>
+                    
+                    <p className="text-sm text-primary-foreground/60">
+                      Page {currentPage} of {totalPages}
+                    </p>
                   </div>
-                )}
+                </div>
 
                 {/* Contact CTA */}
                 <div className="text-center mt-12">

@@ -48,11 +48,11 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border/30 p-0">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-background border-border p-0 [&>button]:text-foreground [&>button]:hover:bg-muted">
         {/* Top Section - Image Gallery */}
         <div className="relative">
           {/* Main Image */}
-          <div className="relative aspect-[16/10] bg-muted/20 overflow-hidden">
+          <div className="relative aspect-[16/10] bg-muted overflow-hidden">
             <img
               src={images[currentImageIndex]}
               alt={car.model_name}
@@ -64,22 +64,22 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-primary/80 rounded-full hover:bg-primary transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-foreground/80 rounded-full hover:bg-foreground transition-colors"
                 >
-                  <ChevronLeft className="w-6 h-6 text-primary-foreground" />
+                  <ChevronLeft className="w-6 h-6 text-background" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-primary/80 rounded-full hover:bg-primary transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-foreground/80 rounded-full hover:bg-foreground transition-colors"
                 >
-                  <ChevronRight className="w-6 h-6 text-primary-foreground" />
+                  <ChevronRight className="w-6 h-6 text-background" />
                 </button>
               </>
             )}
 
             {/* Image Counter */}
-            <div className="absolute top-4 right-4 bg-primary/80 px-3 py-1 rounded-full">
-              <span className="text-sm text-primary-foreground">
+            <div className="absolute top-4 right-4 bg-foreground/80 px-3 py-1 rounded-full">
+              <span className="text-sm text-background">
                 {currentImageIndex + 1} / {images.length}
               </span>
             </div>
@@ -87,7 +87,7 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
 
           {/* Thumbnail Strip */}
           {images.length > 1 && (
-            <div className="flex gap-2 p-4 bg-card overflow-x-auto">
+            <div className="flex gap-2 p-4 bg-background overflow-x-auto">
               {images.map((url, idx) => (
                 <button
                   key={idx}
@@ -95,7 +95,7 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
                   className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
                     idx === currentImageIndex
                       ? "border-accent ring-2 ring-accent/30"
-                      : "border-border/30 hover:border-accent/50"
+                      : "border-border hover:border-accent/50"
                   }`}
                 >
                   <img
@@ -110,25 +110,25 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
         </div>
 
         {/* Bottom Section - Complete Details */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 bg-background">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               {car.year} {car.model_name}
             </h2>
-            <div className="text-3xl md:text-4xl font-bold text-accent">
+            <div className="text-3xl md:text-4xl font-bold text-foreground">
               £{car.price?.toLocaleString()}
             </div>
           </div>
 
           {/* Specifications Grid */}
           <div>
-            <h3 className="font-semibold text-primary-foreground mb-4 text-lg">Specifications</h3>
+            <h3 className="font-semibold text-foreground mb-4 text-lg">Specifications</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {specs.map((spec) => (
-                <div key={spec.label} className="bg-card/5 border border-border/20 p-3 rounded-lg">
-                  <div className="text-xs text-primary-foreground/50 mb-1">{spec.label}</div>
-                  <div className="text-sm font-medium text-primary-foreground">{spec.value || "N/A"}</div>
+                <div key={spec.label} className="bg-muted border border-border p-3 rounded-lg">
+                  <div className="text-xs text-muted-foreground mb-1">{spec.label}</div>
+                  <div className="text-sm font-medium text-foreground">{spec.value || "N/A"}</div>
                 </div>
               ))}
             </div>
@@ -137,10 +137,10 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
           {/* Key Features */}
           {car.key_features && car.key_features.length > 0 && (
             <div>
-              <h3 className="font-semibold text-primary-foreground mb-4 text-lg">Key Features</h3>
+              <h3 className="font-semibold text-foreground mb-4 text-lg">Key Features</h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {car.key_features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-sm text-primary-foreground/80">
+                  <li key={idx} className="flex items-center gap-3 text-sm text-foreground">
                     <span className="w-2 h-2 bg-accent rounded-full flex-shrink-0" />
                     {feature}
                   </li>
@@ -150,15 +150,15 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
           )}
 
           {/* CTA Buttons */}
-          <div className="flex gap-4 pt-4 border-t border-border/20">
+          <div className="flex gap-4 pt-4 border-t border-border">
             <a href={`tel:${PHONE_NUMBER}`} className="flex-1">
-              <Button className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground text-base">
+              <Button className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground text-base font-semibold">
                 <Phone className="w-5 h-5 mr-2" />
                 Call Us
               </Button>
             </a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
-              <Button variant="outline" className="w-full h-12 border-accent text-accent hover:bg-accent hover:text-accent-foreground text-base">
+              <Button className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground text-base font-semibold">
                 <MessageCircle className="w-5 h-5 mr-2" />
                 WhatsApp
               </Button>

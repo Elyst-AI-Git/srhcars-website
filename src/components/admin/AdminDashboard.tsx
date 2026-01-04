@@ -23,7 +23,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Loader2, Plus, Pencil, Trash2, Check, X, Upload } from "lucide-react";
+import { LogOut, Loader2, Plus, Pencil, Trash2, X, Upload, AlertCircle } from "lucide-react";
+import { compressForFullSize, getFileExtension } from "@/lib/imageCompression";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -46,6 +47,12 @@ const emptyCarForm = {
   image_urls: [] as string[],
 };
 
+type FormErrors = {
+  [key in keyof typeof emptyCarForm]?: string;
+};
+
+const MAX_IMAGES = 5;
+
 const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,6 +61,9 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [uploadingImages, setUploadingImages] = useState(false);
+  const [compressionProgress, setCompressionProgress] = useState<string>("");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -80,22 +90,116 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
     }
   };
 
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!form.model_name.trim()) {
+      newErrors.model_name = "Please enter the car model (e.g., BMW 3 Series)";
+    }
+    if (!form.price.trim()) {
+      newErrors.price = "Please enter the price in pounds";
+    }
+    if (!form.year.trim()) {
+      newErrors.year = "Please enter the year of manufacture";
+    }
+    if (!form.body_type) {
+      newErrors.body_type = "Please select a body type";
+    }
+    if (!form.doors.trim()) {
+      newErrors.doors = "Please enter number of doors";
+    }
+    if (!form.seats.trim()) {
+      newErrors.seats = "Please enter number of seats";
+    }
+    if (!form.colour.trim()) {
+      newErrors.colour = "Please enter the car colour";
+    }
+    if (!form.registration_date) {
+      newErrors.registration_date = "Please select the registration date";
+    }
+    if (!form.mileage.trim()) {
+      newErrors.mileage = "Please enter the mileage";
+    }
+    if (!form.fuel_type) {
+      newErrors.fuel_type = "Please select the fuel type";
+    }
+    if (!form.gearbox) {
+      newErrors.gearbox = "Please select gearbox type";
+    }
+    if (!form.drive_type) {
+      newErrors.drive_type = "Please select drive type";
+    }
+    if (!form.key_features.trim()) {
+      newErrors.key_features = "Please add at least one key feature";
+    }
+    if (form.image_urls.length === 0) {
+      newErrors.image_urls = "Please upload at least 1 image (maximum 5)";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const isFormValid = (): boolean => {
+    return (
+      form.model_name.trim() !== "" &&
+      form.price.trim() !== "" &&
+      form.year.trim() !== "" &&
+      form.body_type !== "" &&
+      form.doors.trim() !== "" &&
+      form.seats.trim() !== "" &&
+      form.colour.trim() !== "" &&
+      form.registration_date !== "" &&
+      form.mileage.trim() !== "" &&
+      form.fuel_type !== "" &&
+      form.gearbox !== "" &&
+      form.drive_type !== "" &&
+      form.key_features.trim() !== "" &&
+      form.image_urls.length > 0
+    );
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+
+    const remainingSlots = MAX_IMAGES - form.image_urls.length;
+    if (remainingSlots <= 0) {
+      toast({
+        title: "Limit Reached",
+        description: `Maximum ${MAX_IMAGES} images allowed per vehicle`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const filesToUpload = Array.from(files).slice(0, remainingSlots);
+    if (filesToUpload.length < files.length) {
+      toast({
+        title: "Note",
+        description: `Only uploading ${filesToUpload.length} image(s). Maximum ${MAX_IMAGES} allowed.`,
+      });
+    }
 
     setUploadingImages(true);
     const uploadedUrls: string[] = [...form.image_urls];
 
     try {
-      for (const file of Array.from(files)) {
-        const fileExt = file.name.split(".").pop();
+      for (let i = 0; i < filesToUpload.length; i++) {
+        const file = filesToUpload[i];
+        setCompressionProgress(`Compressing image ${i + 1}/${filesToUpload.length}...`);
+        
+        // Compress image before upload
+        const compressedFile = await compressForFullSize(file);
+        const fileExt = getFileExtension(compressedFile);
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
         const filePath = `car-images/${fileName}`;
 
+        setCompressionProgress(`Uploading image ${i + 1}/${filesToUpload.length}...`);
+
         const { error: uploadError } = await supabase.storage
           .from("car-images")
-          .upload(filePath, file);
+          .upload(filePath, compressedFile);
 
         if (uploadError) throw uploadError;
 
@@ -107,9 +211,10 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       }
 
       setForm({ ...form, image_urls: uploadedUrls });
+      setErrors({ ...errors, image_urls: undefined });
       toast({
         title: "Success",
-        description: "Images uploaded successfully",
+        description: `${filesToUpload.length} image(s) compressed and uploaded`,
       });
     } catch (error: any) {
       toast({
@@ -119,11 +224,23 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       });
     } finally {
       setUploadingImages(false);
+      setCompressionProgress("");
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
+
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields marked below.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSaving(true);
 
     const carData = {
@@ -160,6 +277,8 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
 
       setForm(emptyCarForm);
       setEditingId(null);
+      setErrors({});
+      setSubmitAttempted(false);
       fetchCars();
     } catch (error: any) {
       toast({
@@ -174,6 +293,8 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
 
   const handleEdit = (car: Car) => {
     setEditingId(car.id);
+    setErrors({});
+    setSubmitAttempted(false);
     setForm({
       model_name: car.model_name,
       price: car.price.toString(),
@@ -235,6 +356,16 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
     setForm({ ...form, image_urls: newUrls });
   };
 
+  const renderError = (field: keyof FormErrors) => {
+    if (!submitAttempted || !errors[field]) return null;
+    return (
+      <p className="text-destructive text-sm mt-1 flex items-center gap-1">
+        <AlertCircle className="w-3 h-3" />
+        {errors[field]}
+      </p>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-primary">
       {/* Header */}
@@ -263,6 +394,15 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
               {editingId ? "Edit Vehicle" : "Add New Vehicle"}
             </h2>
 
+            {submitAttempted && Object.keys(errors).length > 0 && (
+              <div className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-lg">
+                <p className="text-destructive text-sm flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" />
+                  Please fill in all required fields marked below.
+                </p>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -271,9 +411,9 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     value={form.model_name}
                     onChange={(e) => setForm({ ...form, model_name: e.target.value })}
                     placeholder="e.g. BMW 3 Series"
-                    className="bg-primary border-border/30 text-primary-foreground"
-                    required
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.model_name && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("model_name")}
                 </div>
                 <div className="space-y-2">
                   <Label className="text-primary-foreground">Price (£) *</Label>
@@ -282,9 +422,9 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     value={form.price}
                     onChange={(e) => setForm({ ...form, price: e.target.value })}
                     placeholder="12995"
-                    className="bg-primary border-border/30 text-primary-foreground"
-                    required
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.price && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("price")}
                 </div>
               </div>
 
@@ -296,37 +436,39 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     value={form.year}
                     onChange={(e) => setForm({ ...form, year: e.target.value })}
                     placeholder="2021"
-                    className="bg-primary border-border/30 text-primary-foreground"
-                    required
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.year && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("year")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Doors</Label>
+                  <Label className="text-primary-foreground">Doors *</Label>
                   <Input
                     type="number"
                     value={form.doors}
                     onChange={(e) => setForm({ ...form, doors: e.target.value })}
                     placeholder="4"
-                    className="bg-primary border-border/30 text-primary-foreground"
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.doors && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("doors")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Seats</Label>
+                  <Label className="text-primary-foreground">Seats *</Label>
                   <Input
                     type="number"
                     value={form.seats}
                     onChange={(e) => setForm({ ...form, seats: e.target.value })}
                     placeholder="5"
-                    className="bg-primary border-border/30 text-primary-foreground"
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.seats && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("seats")}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Body Type</Label>
+                  <Label className="text-primary-foreground">Body Type *</Label>
                   <Select value={form.body_type} onValueChange={(v) => setForm({ ...form, body_type: v })}>
-                    <SelectTrigger className="bg-primary border-border/30 text-primary-foreground">
+                    <SelectTrigger className={`bg-primary border-border/30 text-primary-foreground ${errors.body_type && submitAttempted ? 'border-destructive' : ''}`}>
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -338,45 +480,49 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                       <SelectItem value="Convertible">Convertible</SelectItem>
                     </SelectContent>
                   </Select>
+                  {renderError("body_type")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Colour</Label>
+                  <Label className="text-primary-foreground">Colour *</Label>
                   <Input
                     value={form.colour}
                     onChange={(e) => setForm({ ...form, colour: e.target.value })}
                     placeholder="Black"
-                    className="bg-primary border-border/30 text-primary-foreground"
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.colour && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("colour")}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Mileage</Label>
+                  <Label className="text-primary-foreground">Mileage *</Label>
                   <Input
                     type="number"
                     value={form.mileage}
                     onChange={(e) => setForm({ ...form, mileage: e.target.value })}
                     placeholder="45000"
-                    className="bg-primary border-border/30 text-primary-foreground"
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.mileage && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("mileage")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Registration Date</Label>
+                  <Label className="text-primary-foreground">Registration Date *</Label>
                   <Input
                     type="date"
                     value={form.registration_date}
                     onChange={(e) => setForm({ ...form, registration_date: e.target.value })}
-                    className="bg-primary border-border/30 text-primary-foreground"
+                    className={`bg-primary border-border/30 text-primary-foreground ${errors.registration_date && submitAttempted ? 'border-destructive' : ''}`}
                   />
+                  {renderError("registration_date")}
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Fuel Type</Label>
+                  <Label className="text-primary-foreground">Fuel Type *</Label>
                   <Select value={form.fuel_type} onValueChange={(v) => setForm({ ...form, fuel_type: v })}>
-                    <SelectTrigger className="bg-primary border-border/30 text-primary-foreground">
+                    <SelectTrigger className={`bg-primary border-border/30 text-primary-foreground ${errors.fuel_type && submitAttempted ? 'border-destructive' : ''}`}>
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -386,11 +532,12 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                       <SelectItem value="Electric">Electric</SelectItem>
                     </SelectContent>
                   </Select>
+                  {renderError("fuel_type")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Gearbox</Label>
+                  <Label className="text-primary-foreground">Gearbox *</Label>
                   <Select value={form.gearbox} onValueChange={(v) => setForm({ ...form, gearbox: v })}>
-                    <SelectTrigger className="bg-primary border-border/30 text-primary-foreground">
+                    <SelectTrigger className={`bg-primary border-border/30 text-primary-foreground ${errors.gearbox && submitAttempted ? 'border-destructive' : ''}`}>
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -398,11 +545,12 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                       <SelectItem value="Automatic">Automatic</SelectItem>
                     </SelectContent>
                   </Select>
+                  {renderError("gearbox")}
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-primary-foreground">Drive Type</Label>
+                  <Label className="text-primary-foreground">Drive Type *</Label>
                   <Select value={form.drive_type} onValueChange={(v) => setForm({ ...form, drive_type: v })}>
-                    <SelectTrigger className="bg-primary border-border/30 text-primary-foreground">
+                    <SelectTrigger className={`bg-primary border-border/30 text-primary-foreground ${errors.drive_type && submitAttempted ? 'border-destructive' : ''}`}>
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -411,21 +559,25 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                       <SelectItem value="AWD">AWD</SelectItem>
                     </SelectContent>
                   </Select>
+                  {renderError("drive_type")}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-primary-foreground">Key Features (one per line)</Label>
+                <Label className="text-primary-foreground">Key Features * (one per line)</Label>
                 <Textarea
                   value={form.key_features}
                   onChange={(e) => setForm({ ...form, key_features: e.target.value })}
                   placeholder="Leather Seats&#10;Navigation&#10;Parking Sensors"
-                  className="bg-primary border-border/30 text-primary-foreground min-h-[80px]"
+                  className={`bg-primary border-border/30 text-primary-foreground min-h-[80px] ${errors.key_features && submitAttempted ? 'border-destructive' : ''}`}
                 />
+                {renderError("key_features")}
               </div>
 
               <div className="space-y-2">
-                <Label className="text-primary-foreground">Images</Label>
+                <Label className="text-primary-foreground">
+                  Images * ({form.image_urls.length}/{MAX_IMAGES})
+                </Label>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {form.image_urls.map((url, idx) => (
                     <div key={idx} className="relative group">
@@ -440,27 +592,30 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     </div>
                   ))}
                 </div>
-                <label className="flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/30 rounded-lg cursor-pointer hover:bg-accent/20 transition-colors">
-                  <Upload className="w-4 h-4 text-accent" />
-                  <span className="text-accent text-sm">
-                    {uploadingImages ? "Uploading..." : "Upload Images"}
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageUpload}
-                    className="hidden"
-                    disabled={uploadingImages}
-                  />
-                </label>
+                {form.image_urls.length < MAX_IMAGES && (
+                  <label className={`flex items-center gap-2 px-4 py-2 bg-accent/10 border rounded-lg cursor-pointer hover:bg-accent/20 transition-colors ${errors.image_urls && submitAttempted ? 'border-destructive' : 'border-accent/30'}`}>
+                    <Upload className="w-4 h-4 text-accent" />
+                    <span className="text-accent text-sm">
+                      {uploadingImages ? compressionProgress || "Processing..." : "Upload Images (max 5, auto-compressed)"}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      disabled={uploadingImages}
+                    />
+                  </label>
+                )}
+                {renderError("image_urls")}
               </div>
 
               <div className="flex gap-3 pt-4">
                 <Button
                   type="submit"
-                  className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground"
-                  disabled={saving}
+                  className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground disabled:opacity-50"
+                  disabled={saving || !isFormValid()}
                 >
                   {saving ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -477,6 +632,8 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                     onClick={() => {
                       setEditingId(null);
                       setForm(emptyCarForm);
+                      setErrors({});
+                      setSubmitAttempted(false);
                     }}
                     className="border-border/30 bg-muted text-foreground hover:bg-muted/80"
                   >

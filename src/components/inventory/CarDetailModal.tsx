@@ -1,7 +1,7 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useState } from "react";
+import { Phone, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 import type { Car } from "@/lib/supabase";
 
 const PHONE_NUMBER = "07593003535";
@@ -16,6 +16,11 @@ interface CarDetailModalProps {
 const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Reset image index when car changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [car?.id]);
+
   if (!car) return null;
 
   const images = car.image_urls?.length > 0 ? car.image_urls : ["/placeholder.svg"];
@@ -29,6 +34,7 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
   };
 
   const specs = [
+    { label: "Year", value: car.year },
     { label: "Body Type", value: car.body_type },
     { label: "Doors", value: car.doors },
     { label: "Seats", value: car.seats },
@@ -42,93 +48,122 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-card border-border/30">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-primary-foreground">
-            {car.year} {car.model_name}
-          </DialogTitle>
-        </DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border/30 p-0">
+        {/* Top Section - Image Gallery */}
+        <div className="relative">
+          {/* Main Image */}
+          <div className="relative aspect-[16/10] bg-muted/20 overflow-hidden">
+            <img
+              src={images[currentImageIndex]}
+              alt={car.model_name}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Navigation Arrows */}
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-primary/80 rounded-full hover:bg-primary transition-colors"
+                >
+                  <ChevronLeft className="w-6 h-6 text-primary-foreground" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-primary/80 rounded-full hover:bg-primary transition-colors"
+                >
+                  <ChevronRight className="w-6 h-6 text-primary-foreground" />
+                </button>
+              </>
+            )}
 
-        {/* Image Gallery */}
-        <div className="relative aspect-video bg-muted/20 rounded-lg overflow-hidden">
-          <img
-            src={images[currentImageIndex]}
-            alt={car.model_name}
-            className="w-full h-full object-cover"
-          />
+            {/* Image Counter */}
+            <div className="absolute top-4 right-4 bg-primary/80 px-3 py-1 rounded-full">
+              <span className="text-sm text-primary-foreground">
+                {currentImageIndex + 1} / {images.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Thumbnail Strip */}
           {images.length > 1 && (
-            <>
-              <button
-                onClick={prevImage}
-                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-primary/80 rounded-full hover:bg-primary transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5 text-primary-foreground" />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary/80 rounded-full hover:bg-primary transition-colors"
-              >
-                <ChevronRight className="w-5 h-5 text-primary-foreground" />
-              </button>
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                {images.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentImageIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      idx === currentImageIndex ? "bg-accent" : "bg-primary-foreground/50"
-                    }`}
+            <div className="flex gap-2 p-4 bg-card overflow-x-auto">
+              {images.map((url, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImageIndex(idx)}
+                  className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                    idx === currentImageIndex
+                      ? "border-accent ring-2 ring-accent/30"
+                      : "border-border/30 hover:border-accent/50"
+                  }`}
+                >
+                  <img
+                    src={url}
+                    alt={`${car.model_name} - Image ${idx + 1}`}
+                    className="w-full h-full object-cover"
                   />
-                ))}
-              </div>
-            </>
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Price */}
-        <div className="text-3xl font-bold text-accent">
-          £{car.price?.toLocaleString()}
-        </div>
-
-        {/* Specifications Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {specs.map((spec) => (
-            <div key={spec.label} className="bg-card/5 border border-border/20 p-3 rounded-lg">
-              <div className="text-xs text-primary-foreground/50 mb-1">{spec.label}</div>
-              <div className="text-sm font-medium text-primary-foreground">{spec.value || "N/A"}</div>
+        {/* Bottom Section - Complete Details */}
+        <div className="p-6 space-y-6">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground">
+              {car.year} {car.model_name}
+            </h2>
+            <div className="text-3xl md:text-4xl font-bold text-accent">
+              £{car.price?.toLocaleString()}
             </div>
-          ))}
-        </div>
-
-        {/* Key Features */}
-        {car.key_features && car.key_features.length > 0 && (
-          <div>
-            <h3 className="font-semibold text-primary-foreground mb-3">Key Features</h3>
-            <ul className="grid grid-cols-2 gap-2">
-              {car.key_features.map((feature, idx) => (
-                <li key={idx} className="flex items-center gap-2 text-sm text-primary-foreground/70">
-                  <span className="w-1.5 h-1.5 bg-accent rounded-full" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
           </div>
-        )}
 
-        {/* CTA Buttons */}
-        <div className="flex gap-3 pt-4 border-t border-border/20">
-          <a href={`tel:${PHONE_NUMBER}`} className="flex-1">
-            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Phone className="w-4 h-4 mr-2" />
-              Call Us
-            </Button>
-          </a>
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
-            <Button variant="outline" className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              WhatsApp
-            </Button>
-          </a>
+          {/* Specifications Grid */}
+          <div>
+            <h3 className="font-semibold text-primary-foreground mb-4 text-lg">Specifications</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {specs.map((spec) => (
+                <div key={spec.label} className="bg-card/5 border border-border/20 p-3 rounded-lg">
+                  <div className="text-xs text-primary-foreground/50 mb-1">{spec.label}</div>
+                  <div className="text-sm font-medium text-primary-foreground">{spec.value || "N/A"}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Key Features */}
+          {car.key_features && car.key_features.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-primary-foreground mb-4 text-lg">Key Features</h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {car.key_features.map((feature, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-sm text-primary-foreground/80">
+                    <span className="w-2 h-2 bg-accent rounded-full flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* CTA Buttons */}
+          <div className="flex gap-4 pt-4 border-t border-border/20">
+            <a href={`tel:${PHONE_NUMBER}`} className="flex-1">
+              <Button className="w-full h-12 bg-accent hover:bg-accent/90 text-accent-foreground text-base">
+                <Phone className="w-5 h-5 mr-2" />
+                Call Us
+              </Button>
+            </a>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex-1">
+              <Button variant="outline" className="w-full h-12 border-accent text-accent hover:bg-accent hover:text-accent-foreground text-base">
+                <MessageCircle className="w-5 h-5 mr-2" />
+                WhatsApp
+              </Button>
+            </a>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

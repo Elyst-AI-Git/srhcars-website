@@ -20,6 +20,7 @@ const Showroom = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    document.title = "Showroom - SRH Cars LTD | Quality Used Cars Nottingham";
     fetchVehicles();
   }, []);
 

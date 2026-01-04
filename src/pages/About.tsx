@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
@@ -27,6 +28,10 @@ const values = [
 ];
 
 const About = () => {
+  useEffect(() => {
+    document.title = "About Us - SRH Cars LTD | Quality Used Cars Nottingham";
+  }, []);
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />

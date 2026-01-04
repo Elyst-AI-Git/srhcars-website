@@ -1,8 +1,6 @@
 import CTAButtons from "@/components/shared/CTAButtons";
-
 const HeroSection = () => {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center bg-primary overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center bg-primary overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-accent blur-3xl" />
@@ -19,13 +17,7 @@ const HeroSection = () => {
           Premium Quality <span className="text-accent">Used Cars</span> in Nottingham
         </h1>
         
-        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-3xl mx-auto mb-10">
-          Find your perfect pre-owned vehicle at SRH Cars Ltd, Nottingham's trusted used car dealer. 
-          Every car is fully inspected, competitively priced, and comes with transparent service history. 
-          Located in Trent South Industrial Park, we offer exceptional customer service, flexible finance options, 
-          and 12-month MOT on selected vehicles. Browse our handpicked collection of reliable, affordable cars 
-          from top manufacturers. Visit us today for a test drive.
-        </p>
+        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-3xl mx-auto mb-10">Find your perfect pre-owned vehicle at SRH Cars Ltd, Nottingham's trusted used car dealer. We offer exceptional customer service, flexible finance options, and 12-month MOT on selected vehicles. Browse our handpicked collection of reliable, affordable cars from top manufacturers.</p>
         
         <CTAButtons size="lg" className="justify-center" />
         
@@ -45,8 +37,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;

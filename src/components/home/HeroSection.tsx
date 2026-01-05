@@ -17,7 +17,7 @@ const HeroSection = () => {
           Premium Quality <span className="text-accent">Used Cars</span> in Nottingham
         </h1>
         
-        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-3xl mx-auto mb-10">Find your perfect pre-owned vehicle at SRH Cars Ltd, Nottingham's trusted used car dealer. We offer exceptional customer service, flexible finance options, and 12-month MOT on selected vehicles. Browse our handpicked collection of reliable, affordable cars from top manufacturers.</p>
+        <p className="text-lg md:text-xl text-primary-foreground/70 max-w-3xl mx-auto mb-10">Find your perfect pre-owned vehicle at SRH Cars Ltd, Nottingham's trusted used car dealer. We offer exceptional customer service, flexible finance options, and 12-month MOT on selected vehicles.</p>
         
         <CTAButtons size="lg" className="justify-center" />
         

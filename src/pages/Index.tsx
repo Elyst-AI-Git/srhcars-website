@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
-import TrustSection from "@/components/home/TrustSection";
 import FeaturedCarsSection from "@/components/home/FeaturedCarsSection";
+import CTASection from "@/components/home/CTASection";
+import StatsSection from "@/components/home/StatsSection";
+import TrustSection from "@/components/home/TrustSection";
 import ServicesSection from "@/components/home/ServicesSection";
-import HowItWorksSection from "@/components/home/HowItWorksSection";
 import GoogleReviewsSection from "@/components/home/GoogleReviewsSection";
-import FinalCTASection from "@/components/home/FinalCTASection";
 
 const Index = () => {
   useEffect(() => {
@@ -19,12 +19,12 @@ const Index = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <TrustSection />
         <FeaturedCarsSection />
+        <CTASection />
+        <StatsSection />
+        <TrustSection />
         <ServicesSection />
-        <HowItWorksSection />
         <GoogleReviewsSection />
-        <FinalCTASection />
       </main>
       <Footer />
     </div>

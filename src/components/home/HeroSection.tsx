@@ -1,6 +1,5 @@
 const HeroSection = () => {
-  return (
-    <section className="relative min-h-[60vh] flex items-center justify-center bg-primary overflow-hidden">
+  return <section className="relative min-h-[60vh] flex items-center justify-center bg-primary overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-accent blur-3xl" />
@@ -13,12 +12,10 @@ const HeroSection = () => {
           Quality Used Cars in Nottingham
         </span>
         
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-          Premium Quality <span className="text-accent">Used Cars</span> in Nottingham
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">Premium Quality Used Cars
+in Nottingham<span className="text-accent">Used Cars</span> in Nottingham
         </h1>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;

@@ -1,5 +1,5 @@
 const HeroSection = () => {
-  return <section className="relative min-h-[45vh] flex items-center justify-center bg-primary overflow-hidden pb-4">
+  return <section className="relative min-h-[35vh] flex items-center justify-center bg-primary overflow-hidden pb-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-accent blur-3xl" />
@@ -7,7 +7,7 @@ const HeroSection = () => {
       </div>
       
       {/* Content */}
-      <div className="container mx-auto px-4 text-center relative z-10 pt-28">
+      <div className="container mx-auto px-4 text-center relative z-10 pt-35">
         <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-6">
           Quality Used Cars in Nottingham
         </span>

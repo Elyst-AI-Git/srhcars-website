@@ -13,7 +13,7 @@ const HeroSection = () => {
         </span>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">Premium Quality Used Cars
-in Nottingham<span className="text-accent">Premium Quality Used Cars in Nottingham Used Cars in Nottingham</span> in Nottingham
+in Nottingham<span className="text-accent">Used Cars</span> in Nottingham
         </h1>
       </div>
     </section>;

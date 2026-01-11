@@ -1,5 +1,5 @@
 const HeroSection = () => {
-  return <section className="relative min-h-[60vh] flex items-center justify-center bg-primary overflow-hidden">
+  return <section className="relative min-h-[50vh] flex items-center justify-center bg-primary overflow-hidden pb-8">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-accent blur-3xl" />

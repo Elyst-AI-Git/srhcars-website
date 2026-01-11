@@ -87,12 +87,12 @@ const CarDetailModal = ({ car, open, onOpenChange }: CarDetailModalProps) => {
 
           {/* Thumbnail Strip */}
           {images.length > 1 && (
-            <div className="flex gap-2 p-4 bg-background overflow-x-auto">
+            <div className="flex gap-2 p-4 bg-background overflow-x-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
               {images.map((url, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentImageIndex(idx)}
-                  className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                  className={`flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition-all ${
                     idx === currentImageIndex
                       ? "border-accent ring-2 ring-accent/30"
                       : "border-border hover:border-accent/50"

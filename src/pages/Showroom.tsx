@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { type Car } from "@/lib/supabase";
 import CarDetailModal from "@/components/inventory/CarDetailModal";
+import { useSEO } from "@/hooks/useSEO";
 
 const PHONE_NUMBER = "07593003535";
 const WHATSAPP_LINK = "https://wa.me/+447593003535";
@@ -19,8 +20,14 @@ const Showroom = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  useSEO({
+    title: "Used Car Showroom Nottingham - Quality Pre-Owned Vehicles | SRH CARS",
+    description: "Browse our selection of quality used cars in Nottingham. All vehicles thoroughly inspected with transparent pricing. Visit SRH Cars showroom today.",
+    keywords: "used car showroom Nottingham, pre-owned vehicles Nottingham, quality used cars, SRH Cars showroom",
+    canonicalUrl: "https://srhcarsltd.uk/showroom",
+  });
+
   useEffect(() => {
-    document.title = "Showroom - SRH Cars LTD | Quality Used Cars Nottingham";
     fetchVehicles();
   }, []);
 

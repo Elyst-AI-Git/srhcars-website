@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useSEO } from "@/hooks/useSEO";
 
 const PHONE_NUMBER = "07593003535";
 const WHATSAPP_LINK = "https://wa.me/+447593003535";
@@ -16,9 +17,12 @@ const ADDRESS = "UNIT 37 Trent Ln, Nottingham NG2 4EQ, United Kingdom";
 const Contact = () => {
   const { toast } = useToast();
 
-  useEffect(() => {
-    document.title = "Contact Us - SRH Cars LTD | Quality Used Cars Nottingham";
-  }, []);
+  useSEO({
+    title: "Contact SRH CARS - Used Car Dealer Nottingham | 07593003535",
+    description: "Get in touch with SRH Cars Ltd in Nottingham. Visit our showroom at Trent South Industrial Park or call 07593003535.",
+    keywords: "contact SRH Cars, used car dealer Nottingham, SRH Cars phone number, Trent South Industrial Park",
+    canonicalUrl: "https://srhcarsltd.uk/contact",
+  });
 
   const [formData, setFormData] = useState({
     name: "",

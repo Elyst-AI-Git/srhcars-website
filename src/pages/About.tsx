@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
 import { Shield, Heart, Target, Users } from "lucide-react";
+import { useSEO } from "@/hooks/useSEO";
 
 const values = [
   {
@@ -28,9 +28,12 @@ const values = [
 ];
 
 const About = () => {
-  useEffect(() => {
-    document.title = "About Us - SRH Cars LTD | Quality Used Cars Nottingham";
-  }, []);
+  useSEO({
+    title: "About Us - Trusted Used Car Dealer Nottingham | SRH CARS LTD",
+    description: "Learn about SRH Cars Ltd - Nottingham's trusted used car dealership. Quality vehicles, exceptional service, and transparent pricing since day one.",
+    keywords: "about SRH Cars, trusted car dealer Nottingham, used car dealership Nottingham, quality vehicles",
+    canonicalUrl: "https://srhcarsltd.uk/about",
+  });
 
   return (
     <div className="min-h-screen bg-primary">

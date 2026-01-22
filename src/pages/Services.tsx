@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CTAButtons from "@/components/shared/CTAButtons";
@@ -19,6 +18,7 @@ import {
   Settings, 
   Cog 
 } from "lucide-react";
+import { useSEO } from "@/hooks/useSEO";
 
 const services = [
   { 
@@ -99,9 +99,12 @@ const services = [
 ];
 
 const Services = () => {
-  useEffect(() => {
-    document.title = "Services - SRH Cars LTD | MOT, Servicing & Repairs Nottingham";
-  }, []);
+  useSEO({
+    title: "Car Services Nottingham - MOT, Servicing & More | SRH CARS",
+    description: "Complete car services in Nottingham including MOT, servicing, repairs, and maintenance. Professional service from SRH Cars Ltd.",
+    keywords: "car services Nottingham, MOT Nottingham, car servicing, car repairs, vehicle maintenance, SRH Cars",
+    canonicalUrl: "https://srhcarsltd.uk/services",
+  });
 
   return (
     <div className="min-h-screen bg-primary">

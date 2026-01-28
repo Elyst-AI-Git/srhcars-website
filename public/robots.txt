@@ -1,5 +1,9 @@
-User-agent: *
-Allow: /
-Disallow: /admin
+# Elyst AI - Robots.txt
 
-Sitemap: https://srhcarsltd.uk/sitemap.xml
+User-agent: *
+
+Allow: /
+
+# Sitemap location
+
+Sitemap: https://elystai.com/sitemap.xml

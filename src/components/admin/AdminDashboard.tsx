@@ -51,7 +51,7 @@ type FormErrors = {
   [key in keyof typeof emptyCarForm]?: string;
 };
 
-const MAX_IMAGES = 10;
+const MAX_IMAGES = 20;
 
 const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -133,7 +133,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       newErrors.key_features = "Please add at least one key feature";
     }
     if (form.image_urls.length === 0) {
-      newErrors.image_urls = "Please upload at least 1 image (maximum 10)";
+      newErrors.image_urls = "Please upload at least 1 image (maximum 20)";
     }
 
     setErrors(newErrors);
@@ -596,7 +596,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                   <label className={`flex items-center gap-2 px-4 py-2 bg-accent/10 border rounded-lg cursor-pointer hover:bg-accent/20 transition-colors ${errors.image_urls && submitAttempted ? 'border-destructive' : 'border-accent/30'}`}>
                     <Upload className="w-4 h-4 text-accent" />
                     <span className="text-accent text-sm">
-                      {uploadingImages ? compressionProgress || "Processing..." : "Upload Images (max 5, auto-compressed)"}
+                      {uploadingImages ? compressionProgress || "Processing..." : "Upload Images (max 20, auto-compressed)"}
                     </span>
                     <input
                       type="file"

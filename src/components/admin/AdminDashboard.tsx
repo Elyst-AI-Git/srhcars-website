@@ -51,7 +51,7 @@ type FormErrors = {
   [key in keyof typeof emptyCarForm]?: string;
 };
 
-const MAX_IMAGES = 10;
+const MAX_IMAGES = 20;
 
 const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -133,7 +133,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       newErrors.key_features = "Please add at least one key feature";
     }
     if (form.image_urls.length === 0) {
-      newErrors.image_urls = "Please upload at least 1 image (maximum 10)";
+      newErrors.image_urls = "Please upload at least 1 image (maximum 20)";
     }
 
     setErrors(newErrors);

@@ -596,7 +596,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
                   <label className={`flex items-center gap-2 px-4 py-2 bg-accent/10 border rounded-lg cursor-pointer hover:bg-accent/20 transition-colors ${errors.image_urls && submitAttempted ? 'border-destructive' : 'border-accent/30'}`}>
                     <Upload className="w-4 h-4 text-accent" />
                     <span className="text-accent text-sm">
-                      {uploadingImages ? compressionProgress || "Processing..." : "Upload Images (max 5, auto-compressed)"}
+                      {uploadingImages ? compressionProgress || "Processing..." : "Upload Images (max 20, auto-compressed)"}
                     </span>
                     <input
                       type="file"

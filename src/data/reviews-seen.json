@@ -1,6 +1,6 @@
 {
   "note": "Log of every Google review already processed by the monthly review check. id = lowercase(name|first 40 chars of text). status: published | skipped.",
-  "lastChecked": null,
+  "lastChecked": "2026-11-24",
   "seen": [
     {
       "id": "joanna stachurska|outstanding service from servan! around ",
@@ -101,6 +101,24 @@
     {
       "id": "ray cutz|excellent service! very friendly and hel",
       "name": "Ray Cutz",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "dylan brown|bought a vw polo off srh. car was spot o",
+      "name": "dylan brown",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "hemn hemn|thanks for your great car and decent p",
+      "name": "Hemn Hemn",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "hama rasul|i recently bought a vw polo from srh car",
+      "name": "Hama Rasul",
       "rating": 5,
       "status": "published"
     }

@@ -6,128 +6,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import reviewData from "@/data/reviews.json";
 
-const reviews = [
-  {
-    name: "Joanna Stachurska",
-    date: "8 months ago",
-    rating: 5,
-    text: "Outstanding service from Servan! Around 4 months ago my son bought his first car from this very professional and genuine seller. It was so easy to communicate and Servan made us feel like a valued customer.",
-    initial: "J",
-  },
-  {
-    name: "Karl Kershaw",
-    date: "a year ago",
-    rating: 5,
-    text: "First time using SRH Cars and it won't be the last. From initial call to viewing and test driving the car, the owner was friendly and happy to discuss the car whilst answering any questions either my daughter or I had. The car was as described.",
-    initial: "K",
-  },
-  {
-    name: "Saqib Zahir",
-    date: "a year ago",
-    rating: 5,
-    text: "Bought a car 2 weeks ago and nothing but pleased. Fully transparent sales process and nothing hidden, there is no pressure at all to buy and you are able to view and test drive as you wish.",
-    initial: "S",
-  },
-  {
-    name: "Gurvinder Summan",
-    date: "a year ago",
-    rating: 5,
-    text: "Purchased a car yesterday, the car was clean. He was patient friendly and even provided great service after I purchased.",
-    initial: "G",
-  },
-  {
-    name: "Abdullah Al-Ameen",
-    date: "a year ago",
-    rating: 5,
-    text: "Great sales man excellent selection of great value cars, helped me find a suitable car for my son",
-    initial: "A",
-  },
-  {
-    name: "Luke Worthington",
-    date: "5 months ago",
-    rating: 5,
-    text: "Outstanding service had one little issue with the battery which was sorted instantly would highly recommend",
-    initial: "L",
-  },
-  {
-    name: "Aryan Tariq",
-    date: "2 years ago",
-    rating: 5,
-    text: "Very pleased with the car I have just bought from SRH cars. With it being my first car was I unaware of how the whole process works, but I was very happy with the service provided. Had all the answers to my questions and made the process very easy. Can't recommend enough. Thanks!",
-    initial: "A",
-  },
-  {
-    name: "Martin Berry",
-    date: "a year ago",
-    rating: 5,
-    text: "I bought a car here recently and everything about the experience was great from beginning to end. Extremely friendly, helpful and professional, and the car is fantastic.",
-    initial: "M",
-  },
-  {
-    name: "Sew Fancy teresa",
-    date: "a year ago",
-    rating: 5,
-    text: "Helped me find the perfect car at an affordable price and helped me set everything up : ) definitely recomend, 5 stars for service",
-    initial: "S",
-  },
-  {
-    name: "hozan taha",
-    date: "3 years ago",
-    rating: 5,
-    text: "Friendly and trustworthy car dealership. I bought a car from this company and to my surprise it is a very good and reliable runner, exactly what they advertise so I highly recommend SRH CARS LTD 👍",
-    initial: "H",
-  },
-  {
-    name: "Dilshad Sherfany",
-    date: "a year ago",
-    rating: 5,
-    text: "I went to look at his cars they were clean and in great condition, he was a nice and informative. I will definitely recommend SRH Cars to others.",
-    initial: "D",
-  },
-  {
-    name: "Darwn wafa",
-    date: "2 years ago",
-    rating: 5,
-    text: "Just bought a VW POLO From SRH CARS they were very helpful and the car is great, thank you so much we will definitely buy it from you again. ⭐️⭐️⭐️⭐️⭐️",
-    initial: "D",
-  },
-  {
-    name: "Meer Notts",
-    date: "a year ago",
-    rating: 5,
-    text: "i've bought a car a year ago still have no issues at all highly recommended!",
-    initial: "M",
-  },
-  {
-    name: "Vanessa Lam",
-    date: "a year ago",
-    rating: 5,
-    text: "Very kind and genuine person, very paitent and willing to help you with everything before leaving. Will definitely recommend and will definately go back again.",
-    initial: "V",
-  },
-  {
-    name: "Polay Slemany",
-    date: "3 years ago",
-    rating: 5,
-    text: "I WOULD DEFINITELY BUY FROM THEM AGAIN Absolutely amazing dealer. Friendly and will do anything to help. Can't recommend enough 😊🤝",
-    initial: "P",
-  },
-  {
-    name: "Shvan Maho",
-    date: "2 years ago",
-    rating: 5,
-    text: "Very friendly and helpful very happy with my car they deserve more then 5 start",
-    initial: "S",
-  },
-  {
-    name: "Ray Cutz",
-    date: "3 years ago",
-    rating: 5,
-    text: "Excellent service! Very friendly and helpful. Well worth the 5 stars ⭐️⭐️⭐️⭐️⭐️",
-    initial: "R",
-  },
-];
+const { reviews, totalReviews } = reviewData;
 
 const GoogleReviewsSection = () => {
   return (
@@ -154,7 +35,7 @@ const GoogleReviewsSection = () => {
               ))}
             </div>
           </div>
-          <p className="text-primary-foreground/60">Based on 17 reviews</p>
+          <p className="text-primary-foreground/60">Based on {totalReviews} reviews</p>
         </div>
 
         {/* Carousel */}

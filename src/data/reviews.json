@@ -1,7 +1,31 @@
 {
-  "totalReviews": 17,
+  "totalReviews": 20,
   "averageRating": 5,
   "reviews": [
+    {
+      "id": "dylan brown|bought a vw polo off srh. car was spot o",
+      "name": "dylan brown",
+      "date": "4 days ago",
+      "rating": 5,
+      "text": "Bought a vw polo off SRH. Car was spot on put a deposit down before I visited it. Car was as seen on photos with no hidden damage. On the way back from the collections the car the engine light appeared. We were requested to take the car back. The next day we had the car returned to my home address with no issues. Had the car about 2 months and has been absolutely spot on. Recommend",
+      "initial": "D"
+    },
+    {
+      "id": "hemn hemn|thanks for your great car and decent p",
+      "name": "Hemn Hemn",
+      "date": "a week ago",
+      "rating": 5,
+      "text": "Thanks   For your great car and decent price, easy process to buy and collect!!!!\n\nI will definitely recommend SRH CARS LTD\n\nAbsolutely 5 stars",
+      "initial": "H"
+    },
+    {
+      "id": "hama rasul|i recently bought a vw polo from srh car",
+      "name": "Hama Rasul",
+      "date": "6 months ago",
+      "rating": 5,
+      "text": "I recently bought a VW Polo from SRH Cars Ltd and had a great experience from start to finish. The team was friendly, professional, and very helpful throughout the whole process. They answered all my questions honestly and made everything smooth and stress-free.\n\nThe car was exactly as described, clean, well-presented, and drives perfectly. I’m really happy with my purchase and would definitely recommend SRH Cars Ltd to anyone looking for a reliable car and excellent customer service. Thanks again for making the experience so easy!",
+      "initial": "H"
+    },
     {
       "id": "joanna stachurska|outstanding service from servan! around ",
       "name": "Joanna Stachurska",

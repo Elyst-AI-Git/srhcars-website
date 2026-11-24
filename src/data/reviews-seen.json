@@ -1,0 +1,108 @@
+{
+  "note": "Log of every Google review already processed by the monthly review check. id = lowercase(name|first 40 chars of text). status: published | skipped.",
+  "lastChecked": null,
+  "seen": [
+    {
+      "id": "joanna stachurska|outstanding service from servan! around ",
+      "name": "Joanna Stachurska",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "karl kershaw|first time using srh cars and it won't b",
+      "name": "Karl Kershaw",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "saqib zahir|bought a car 2 weeks ago and nothing but",
+      "name": "Saqib Zahir",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "gurvinder summan|purchased a car yesterday, the car was c",
+      "name": "Gurvinder Summan",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "abdullah al-ameen|great sales man excellent selection of g",
+      "name": "Abdullah Al-Ameen",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "luke worthington|outstanding service had one little issue",
+      "name": "Luke Worthington",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "aryan tariq|very pleased with the car i have just bo",
+      "name": "Aryan Tariq",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "martin berry|i bought a car here recently and everyth",
+      "name": "Martin Berry",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "sew fancy teresa|helped me find the perfect car at an aff",
+      "name": "Sew Fancy teresa",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "hozan taha|friendly and trustworthy car dealership.",
+      "name": "hozan taha",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "dilshad sherfany|i went to look at his cars they were cle",
+      "name": "Dilshad Sherfany",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "darwn wafa|just bought a vw polo from srh cars they",
+      "name": "Darwn wafa",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "meer notts|i've bought a car a year ago still have ",
+      "name": "Meer Notts",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "vanessa lam|very kind and genuine person, very paite",
+      "name": "Vanessa Lam",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "polay slemany|i would definitely buy from them again a",
+      "name": "Polay Slemany",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "shvan maho|very friendly and helpful very happy wit",
+      "name": "Shvan Maho",
+      "rating": 5,
+      "status": "published"
+    },
+    {
+      "id": "ray cutz|excellent service! very friendly and hel",
+      "name": "Ray Cutz",
+      "rating": 5,
+      "status": "published"
+    }
+  ]
+}
